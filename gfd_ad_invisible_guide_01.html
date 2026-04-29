@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GFD 광고 FAQ & 대응 프로세스 (미노출 · 과노출)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #03c75a;
+      --green-dark: #02a34a;
+      --green-light: #e8faf1;
+      --green-mid: #c2f0d8;
+      --orange: #ff6b2b;
+      --orange-dark: #e05520;
+      --orange-light: #fff3ee;
+      --orange-mid: #ffd4bf;
+      --blue: #3d7eff;
+      --blue-light: #e8f0ff;
+      --yellow: #ffcc00;
+      --yellow-light: #fffbe6;
+      --red: #ff4b4b;
+      --red-light: #fff0f0;
+      --gray-100: #f8f9fa;
+      --gray-200: #e9ecef;
+      --gray-300: #dee2e6;
+      --gray-500: #adb5bd;
+      --gray-700: #495057;
+      --gray-900: #212529;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Sans KR', sans-serif; background: #f4f6f9; color: var(--gray-900); line-height: 1.6; font-size: 14px; }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: linear-gradient(135deg, #02a34a 0%, #03c75a 50%, #1a9e5c 100%);
+      color: white; padding: 36px 40px 32px; text-align: center;
+      box-shadow: 0 4px 16px rgba(3,199,90,0.25);
+    }
+    .header-badge {
+      display: inline-block; background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4); border-radius: 20px;
+      padding: 4px 14px; font-size: 12px; font-weight: 500; letter-spacing: 0.5px; margin-bottom: 14px;
+    }
+    .header h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+    .header .subtitle { font-size: 13px; opacity: 0.88; font-weight: 300; }
+
+    /* ===== STATS ===== */
+    .stats-section {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 16px; padding: 28px 40px; max-width: 1200px; margin: 0 auto;
+    }
+    .stat-card {
+      background: white; border-radius: 12px; padding: 20px 22px; text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06); border-top: 4px solid var(--green);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+    .stat-card.orange-accent { border-top-color: var(--orange); }
+    .stat-card .stat-number { font-size: 28px; font-weight: 700; color: var(--green); line-height: 1.1; }
+    .stat-card.orange-accent .stat-number { color: var(--orange); }
+    .stat-card .stat-label { font-size: 12px; color: var(--gray-700); margin-top: 6px; font-weight: 500; }
+    .stat-card .stat-icon { font-size: 22px; margin-bottom: 8px; }
+
+    /* ===== TOPIC TABS (top level) ===== */
+    .topic-wrapper { max-width: 1200px; margin: 0 auto 40px; padding: 0 40px; }
+
+    .topic-nav {
+      display: flex; background: white; border-radius: 14px 14px 0 0;
+      overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .topic-btn {
+      flex: 1; padding: 18px 20px; background: var(--gray-100);
+      border: none; cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
+      font-size: 15px; font-weight: 600; color: var(--gray-500);
+      transition: all 0.25s; border-bottom: 4px solid transparent;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .topic-btn:hover { color: var(--gray-900); background: white; }
+    .topic-btn.invisible.active { background: white; color: var(--green-dark); border-bottom-color: var(--green); }
+    .topic-btn.over.active { background: white; color: var(--orange-dark); border-bottom-color: var(--orange); }
+    .topic-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; border-radius: 50%; font-size: 11px; font-weight: 700;
+    }
+    .topic-btn.invisible .topic-badge { background: var(--green-light); color: var(--green-dark); }
+    .topic-btn.over .topic-badge { background: var(--orange-light); color: var(--orange-dark); }
+    .topic-btn.active.invisible .topic-badge { background: var(--green); color: white; }
+    .topic-btn.active.over .topic-badge { background: var(--orange); color: white; }
+
+    .topic-section { display: none; }
+    .topic-section.active { display: block; }
+
+    .topic-content-wrapper {
+      background: white; border-radius: 0 0 14px 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden;
+    }
+
+    /* ===== INNER TABS ===== */
+    .tab-nav {
+      display: flex; background: var(--gray-100);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .tab-btn {
+      flex: 1; padding: 12px 8px; background: none; border: none; cursor: pointer;
+      font-family: 'Noto Sans KR', sans-serif; font-size: 12.5px; font-weight: 500;
+      color: var(--gray-700); transition: all 0.2s; border-bottom: 3px solid transparent;
+      white-space: nowrap;
+    }
+    .tab-btn:hover { background: rgba(255,255,255,0.7); }
+    .tab-btn.invisible-inner.active { color: var(--green-dark); border-bottom-color: var(--green); background: white; font-weight: 700; }
+    .tab-btn.over-inner.active { color: var(--orange-dark); border-bottom-color: var(--orange); background: white; font-weight: 700; }
+
+    .tab-pane { display: none; padding: 30px 32px; animation: fadeIn 0.2s ease; }
+    .tab-pane.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ===== SECTION TITLE ===== */
+    .section-title {
+      font-size: 17px; font-weight: 700; color: var(--gray-900);
+      margin-bottom: 20px; padding-bottom: 10px;
+      border-bottom: 2px solid var(--green-mid);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-title.orange { border-bottom-color: var(--orange-mid); }
+
+    /* ===== TYPE CARDS ===== */
+    .type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .type-card {
+      border-radius: 10px; padding: 20px; border: 1px solid var(--gray-200);
+      position: relative; overflow: hidden; transition: box-shadow 0.2s;
+    }
+    .type-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .type-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+    .type-card.green::before { background: var(--green); }
+    .type-card.yellow::before { background: var(--yellow); }
+    .type-card.red::before { background: var(--red); }
+    .type-card.orange::before { background: var(--orange); }
+    .type-card.blue::before { background: var(--blue); }
+
+    .type-card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+    .type-badge {
+      width: 32px; height: 32px; border-radius: 8px; font-size: 14px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .type-badge.green { background: var(--green-light); color: var(--green-dark); }
+    .type-badge.yellow { background: var(--yellow-light); color: #b38600; }
+    .type-badge.red { background: var(--red-light); color: #cc0000; }
+    .type-badge.orange { background: var(--orange-light); color: var(--orange-dark); }
+    .type-badge.blue { background: var(--blue-light); color: #0050cc; }
+
+    .type-pct { font-size: 20px; font-weight: 700; color: var(--green); }
+    .type-pct.orange { color: var(--orange); }
+    .type-card h3 { font-size: 14px; font-weight: 700; color: var(--gray-900); margin-bottom: 6px; line-height: 1.4; }
+
+    .solvable-tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 500; margin-bottom: 10px; }
+    .solvable-tag.self { background: var(--green-light); color: var(--green-dark); }
+    .solvable-tag.partial { background: var(--yellow-light); color: #9a6e00; }
+    .solvable-tag.dev { background: var(--red-light); color: #cc0000; }
+
+    .type-section-label { font-size: 11px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; margin: 10px 0 4px; }
+    .cause-list { list-style: none; padding: 0; }
+    .cause-list li { font-size: 12px; color: var(--gray-700); padding: 2px 0 2px 14px; position: relative; }
+    .cause-list li::before { content: '•'; position: absolute; left: 4px; color: var(--green); }
+    .cause-list.orange-bullet li::before { color: var(--orange); }
+
+    .case-box { background: var(--gray-100); border-left: 3px solid var(--green); border-radius: 0 6px 6px 0; padding: 8px 10px; margin: 8px 0; font-size: 11.5px; color: var(--gray-700); line-height: 1.5; }
+    .case-box.orange { border-left-color: var(--orange); }
+    .case-box a, .case-box.orange a { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+    .case-box a:hover { opacity: 0.75; }
+    .ticket-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+    .ticket-chip { display: inline-block; font-size: 10.5px; padding: 2px 7px; border-radius: 4px; font-family: monospace; font-weight: 600; text-decoration: none; transition: opacity 0.15s; white-space: nowrap; }
+    .ticket-chip:hover { opacity: 0.7; text-decoration: underline; }
+    .ticket-chip.inv { background: var(--green-light); color: var(--green-dark); border: 1px solid var(--green-mid); }
+    .ticket-chip.ov { background: var(--orange-light); color: var(--orange-dark); border: 1px solid var(--orange-mid); }
+
+    .checklist { list-style: none; padding: 0; margin-top: 8px; }
+    .checklist li { font-size: 12px; color: var(--gray-700); padding: 3px 0 3px 20px; position: relative; }
+    .checklist li::before { content: '✓'; position: absolute; left: 2px; color: var(--green); font-weight: 700; }
+    .checklist.orange-check li::before { color: var(--orange); }
+
+    .priority-box { background: var(--blue-light); border-radius: 6px; padding: 8px 10px; margin: 8px 0; font-size: 12px; color: var(--blue); font-weight: 500; }
+    .priority-box.orange { background: var(--orange-light); color: var(--orange-dark); }
+
+    .env-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; }
+    .env-item { border-radius: 6px; padding: 6px 8px; font-size: 11px; text-align: center; }
+    .env-item.dev { background: #fff3cd; color: #856404; }
+    .env-item.beta { background: var(--blue-light); color: #0056cc; }
+    .env-item.real { background: var(--green-light); color: var(--green-dark); }
+    .env-item strong { display: block; font-weight: 700; }
+
+    /* ===== FLOWCHART ===== */
+    .flow-container { max-width: 640px; margin: 0 auto; padding: 10px 0; }
+    .flow-start {
+      border-radius: 30px; padding: 12px 24px; text-align: center;
+      font-weight: 700; font-size: 14px; display: flex; align-items: center;
+      justify-content: center; gap: 8px;
+    }
+    .flow-start.green { background: var(--green); color: white; box-shadow: 0 4px 12px rgba(3,199,90,0.35); }
+    .flow-start.orange { background: var(--orange); color: white; box-shadow: 0 4px 12px rgba(255,107,43,0.35); }
+    .flow-arrow { display: flex; flex-direction: column; align-items: center; margin: 4px 0; color: var(--gray-500); font-size: 18px; line-height: 1; }
+    .flow-arrow .arrow-line { width: 2px; height: 20px; background: var(--gray-300); }
+    .flow-step { border: 2px solid var(--gray-200); border-radius: 10px; padding: 14px 18px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .flow-step .step-label { display: inline-block; color: white; font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 10px; margin-bottom: 6px; }
+    .flow-step .step-label.green-lbl { background: var(--green); }
+    .flow-step .step-label.orange-lbl { background: var(--orange); }
+    .flow-step .step-question { font-size: 13px; font-weight: 700; color: var(--gray-900); margin-bottom: 10px; }
+    .flow-branches { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+    .branch { border-radius: 8px; padding: 8px 12px; font-size: 12px; }
+    .branch.yes { background: var(--green-light); border: 1px solid var(--green-mid); }
+    .branch.yes.orange { background: var(--orange-light); border: 1px solid var(--orange-mid); }
+    .branch.cont { background: var(--gray-100); border: 1px dashed var(--gray-300); }
+    .branch .branch-label { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 8px; margin-bottom: 4px; }
+    .branch.yes .branch-label { background: var(--green); color: white; }
+    .branch.yes.orange .branch-label { background: var(--orange); color: white; }
+    .branch.cont .branch-label { background: var(--gray-300); color: var(--gray-700); }
+    .branch .branch-action { color: var(--gray-700); line-height: 1.4; }
+    .branch .resolve-tag { display: inline-block; color: white; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 6px; margin-top: 3px; }
+    .branch.yes .resolve-tag { background: var(--green); }
+    .branch.yes.orange .resolve-tag { background: var(--orange); }
+
+    .flow-escalate { color: white; border-radius: 10px; padding: 16px 20px; }
+    .flow-escalate.green-esc { background: linear-gradient(135deg, #2c3e50, #3d5a80); }
+    .flow-escalate.orange-esc { background: linear-gradient(135deg, #3e2c20, #805a3d); }
+    .flow-escalate .esc-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .channel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .channel-item { background: rgba(255,255,255,0.12); border-radius: 6px; padding: 8px 10px; font-size: 11.5px; text-align: center; border: 1px solid rgba(255,255,255,0.2); }
+    .channel-item strong { display: block; font-size: 11px; opacity: 0.8; margin-bottom: 2px; }
+
+    /* ===== TEMPLATES ===== */
+    .template-card { border: 1px solid var(--gray-200); border-radius: 10px; margin-bottom: 24px; overflow: hidden; }
+    .template-header { padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--gray-200); }
+    .template-header.green-hdr { background: var(--green-light); border-bottom-color: var(--green-mid); }
+    .template-header.orange-hdr { background: var(--orange-light); border-bottom-color: var(--orange-mid); }
+    .template-header h3 { font-size: 14px; font-weight: 700; }
+    .template-header.green-hdr h3 { color: var(--green-dark); }
+    .template-header.orange-hdr h3 { color: var(--orange-dark); }
+    .copy-btn { border: none; border-radius: 6px; padding: 5px 12px; font-size: 12px; font-weight: 500; cursor: pointer; font-family: 'Noto Sans KR', sans-serif; transition: background 0.2s; color: white; }
+    .copy-btn.green-btn { background: var(--green); }
+    .copy-btn.green-btn:hover { background: var(--green-dark); }
+    .copy-btn.orange-btn { background: var(--orange); }
+    .copy-btn.orange-btn:hover { background: var(--orange-dark); }
+    .copy-btn.copied { background: #888 !important; }
+    .template-code { background: #1e2a35; color: #e0e8f0; padding: 18px 20px; font-family: 'Courier New', monospace; font-size: 12.5px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; margin: 0; }
+
+    /* ===== ARCHIVING ===== */
+    .archive-section { margin-bottom: 30px; }
+    .archive-section h3 { font-size: 15px; font-weight: 700; color: var(--gray-900); margin-bottom: 14px; padding-left: 10px; border-left: 3px solid var(--green); }
+    .archive-section h3.orange-border { border-left-color: var(--orange); }
+    .label-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .label-table th { color: white; padding: 10px 14px; text-align: left; font-weight: 600; }
+    .label-table th.green-th { background: var(--green); }
+    .label-table th.orange-th { background: var(--orange); }
+    .label-table th:first-child { border-radius: 8px 0 0 0; }
+    .label-table th:last-child { border-radius: 0 8px 0 0; }
+    .label-table td { padding: 10px 14px; border-bottom: 1px solid var(--gray-200); vertical-align: top; }
+    .label-table tr:nth-child(even) td { background: var(--gray-100); }
+    .label-table tr:hover td { background: var(--green-light); }
+    .label-table.orange-tbl tr:hover td { background: var(--orange-light); }
+    .label-chip { display: inline-block; border-radius: 6px; padding: 2px 10px; font-family: monospace; font-size: 12px; font-weight: 600; }
+    .label-chip.green-chip { background: var(--green-light); border: 1px solid var(--green-mid); color: var(--green-dark); }
+    .label-chip.orange-chip { background: var(--orange-light); border: 1px solid var(--orange-mid); color: var(--orange-dark); }
+    .project-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    .project-table th { background: var(--gray-100); padding: 9px 14px; text-align: left; font-weight: 600; color: var(--gray-700); border-bottom: 2px solid var(--gray-300); }
+    .project-table td { padding: 9px 14px; border-bottom: 1px solid var(--gray-200); }
+    .project-table tr:hover td { background: var(--green-light); }
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline::before { content: ''; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 2px; background: var(--green-mid); }
+    .timeline.orange-tl::before { background: var(--orange-mid); }
+    .timeline-item { position: relative; margin-bottom: 18px; }
+    .timeline-item::before { content: ''; position: absolute; left: -24px; top: 6px; width: 12px; height: 12px; background: var(--green); border-radius: 50%; border: 2px solid white; box-shadow: 0 0 0 2px var(--green-mid); }
+    .timeline.orange-tl .timeline-item::before { background: var(--orange); box-shadow: 0 0 0 2px var(--orange-mid); }
+    .tl-label { font-size: 12px; font-weight: 700; display: inline-block; padding: 2px 10px; border-radius: 8px; margin-bottom: 4px; }
+    .tl-label.green-lbl { background: var(--green-light); color: var(--green-dark); }
+    .tl-label.orange-lbl { background: var(--orange-light); color: var(--orange-dark); }
+    .tl-desc { font-size: 13px; color: var(--gray-700); }
+
+    /* ===== FOOTER ===== */
+    .footer { background: var(--gray-900); color: #adb5bd; text-align: center; padding: 24px 40px; font-size: 12px; margin-top: 20px; }
+    .footer a { color: var(--green); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    .footer .footer-links { margin-top: 8px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .stats-section { grid-template-columns: repeat(2, 1fr); padding: 20px 16px; }
+      .topic-wrapper { padding: 0 16px; }
+      .type-grid { grid-template-columns: 1fr 1fr; }
+      .tab-pane { padding: 20px 16px; }
+    }
+    @media (max-width: 600px) {
+      .header { padding: 24px 16px 20px; }
+      .header h1 { font-size: 18px; }
+      .stats-section { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .type-grid { grid-template-columns: 1fr; }
+      .topic-btn { font-size: 13px; padding: 14px 12px; }
+      .tab-btn { font-size: 11px; padding: 10px 6px; }
+      .flow-branches, .channel-grid, .env-grid { grid-template-columns: 1fr; }
+    }
+    @media print {
+      body { background: white; font-size: 12px; }
+      .header { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .topic-nav, .tab-nav { display: none; }
+      .topic-section, .tab-pane { display: block !important; page-break-before: always; padding: 20px 0; }
+      .topic-section:first-child, .tab-pane:first-child { page-break-before: auto; }
+      .topic-wrapper { padding: 0; }
+      .topic-content-wrapper { box-shadow: none; }
+      .copy-btn { display: none; }
+      .template-code { color: #222; background: #f0f0f0; border: 1px solid #ccc; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-badge">NAVER GFD Internal Guide</div>
+  <h1>GFD 광고 FAQ &amp; 대응 프로세스</h1>
+  <p class="subtitle">미노출 · 과노출 · 과집계 &nbsp;|&nbsp; 176건+ JIRA 이슈 분석 기반 &nbsp;|&nbsp; 2026-04-28 기준</p>
+</header>
+
+<!-- ===== STATS ===== -->
+<section class="stats-section">
+  <div class="stat-card">
+    <div class="stat-icon">📊</div>
+    <div class="stat-number">176건+</div>
+    <div class="stat-label">총 분석 이슈 (미노출 168 + 과노출 8)</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">✅</div>
+    <div class="stat-number">70~80%</div>
+    <div class="stat-label">미노출 자가해결 가능 비율</div>
+  </div>
+  <div class="stat-card orange-accent">
+    <div class="stat-icon">⚡</div>
+    <div class="stat-number">50~60%</div>
+    <div class="stat-label">과노출·과집계 자가해결 가능 비율</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">🗂️</div>
+    <div class="stat-number">6 + 4</div>
+    <div class="stat-label">미노출 6유형 · 과노출 4유형</div>
+  </div>
+</section>
+
+<!-- ===== TOPIC TABS ===== -->
+<div class="topic-wrapper">
+
+  <!-- Topic Nav -->
+  <nav class="topic-nav" role="tablist">
+    <button class="topic-btn invisible active" data-topic="invisible" role="tab" aria-selected="true">
+      <span class="topic-badge">A</span>
+      🚫 미노출 FAQ &amp; 프로세스
+    </button>
+    <button class="topic-btn over" data-topic="over" role="tab" aria-selected="false">
+      <span class="topic-badge">B</span>
+      ⚡ 과노출 · 과송출 · 과집계 FAQ &amp; 프로세스
+    </button>
+  </nav>
+
+  <div class="topic-content-wrapper">
+
+    <!-- =============================== -->
+    <!--  TOPIC A: 미노출                 -->
+    <!-- =============================== -->
+    <div class="topic-section active" id="topic-invisible">
+
+      <nav class="tab-nav" role="tablist">
+        <button class="tab-btn invisible-inner active" data-tab="inv-types">📋 유형 분류</button>
+        <button class="tab-btn invisible-inner" data-tab="inv-flow">🔍 자가진단 플로우</button>
+        <button class="tab-btn invisible-inner" data-tab="inv-templates">📝 자동 응답 템플릿</button>
+        <button class="tab-btn invisible-inner" data-tab="inv-precheck">🔎 관리자 사전 점검</button>
+        <button class="tab-btn invisible-inner" data-tab="inv-archive">🗃️ 아카이빙 방법론</button>
+      </nav>
+
+      <!-- INV TAB 1: 유형 분류 -->
+      <div class="tab-pane active" id="tab-inv-types">
+        <h2 class="section-title">📋 광고 미노출 유형 분류 (6가지)</h2>
+        <div class="type-grid">
+
+          <div class="type-card green">
+            <div class="type-card-header">
+              <div class="type-badge green">A</div>
+              <span class="type-pct">25%</span>
+            </div>
+            <h3>소재 / 크리에이티브 문제</h3>
+            <span class="solvable-tag self">🟢 자가해결 가능</span>
+            <div class="type-section-label">주요 원인</div>
+            <ul class="cause-list">
+              <li>소재 사이즈 불일치</li>
+              <li>소재 미등록 / 심사 반려</li>
+              <li>VAST 에러 (Error 303 등)</li>
+              <li>소재 유형 불일치 (Banner/Native)</li>
+            </ul>
+            <div class="type-section-label">실제 사례</div>
+            <div class="case-box">414×414 소재 → PC/MW 미지원<br>VAST Error 303 (<a href="https://jira.navercorp.com/browse/GFP_SUPPORT-348" target="_blank">GFP_SUPPORT-348</a>, 뎁스미디어)</div>
+            <div class="type-section-label">체크리스트</div>
+            <ul class="checklist">
+              <li>소재 상태 확인 (반려/검토중/게재중)</li>
+              <li>인벤토리 허용 사이즈 목록 대조</li>
+              <li>VAST URL 직접 호출 테스트</li>
+            </ul>
+            <div class="type-section-label">분류 근거 티켓</div>
+            <div class="ticket-chips">
+              <a href="https://jira.navercorp.com/browse/GFD-1217" target="_blank" class="ticket-chip inv">GFD-1217</a>
+              <a href="https://jira.navercorp.com/browse/GFD-1202" target="_blank" class="ticket-chip inv">GFD-1202</a>
+              <a href="https://jira.navercorp.com/browse/GFD-1173" target="_blank" class="ticket-chip inv">GFD-1173</a>
+              <a href="https://jira.navercorp.com/browse/GFD-659" target="_blank" class="ticket-chip inv">GFD-659</a>
+              <a href="https://jira.navercorp.com/browse/GFP_SUPPORT-348" target="_blank" class="ticket-chip inv">GFP_SUPPORT-348</a>
+              <a href="https://jira.navercorp.com/browse/GFP_SUPPORT-315" target="_blank" class="ticket-chip inv">GFP_SUPPORT-315</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-274" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-274</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-221" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-221</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-22" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-22</a>
+            </div>
+          </div>
+
+          <div class="type-card green">
+            <div class="type-card-header">
+              <div class="type-badge green">B</div>
+              <span class="type-pct">20%</span>
+            </div>
+            <h3>광고 세팅 / 상태 문제</h3>
+            <span class="solvable-tag self">🟢 자가해결 가능</span>
+            <div class="type-section-label">주요 원인</div>
+            <ul class="cause-list">
+              <li>캠페인/광고그룹/소재 게재 OFF</li>
+              <li>인벤토리 설정 누락 (Banner/Native)</li>
+              <li>예산 소진 / 집행 기간 만료</li>
+            </ul>
+            <div class="type-section-label">실제 사례</div>
+            <div class="case-box">Native만 설정, Banner 누락 → 배너 미노출 (라인웹툰)<br><a href="https://jira.navercorp.com/browse/GFD-912" target="_blank">GFD-912</a> 집행률 데이터 미노출</div>
+            <div class="type-section-label">체크리스트</div>
+            <ul class="checklist">
+              <li>캠페인 → 광고그룹 → 소재 순서로 상태 확인</li>
+              <li>인벤토리 유형 설정 완료 여부</li>
+              <li>예산 잔액 및 기간 만료 확인</li>
+            </ul>
+            <div class="type-section-label">분류 근거 티켓</div>
+            <div class="ticket-chips">
+              <a href="https://jira.navercorp.com/browse/GFD-1339" target="_blank" class="ticket-chip inv">GFD-1339</a>
+              <a href="https://jira.navercorp.com/browse/GFD-1191" target="_blank" class="ticket-chip inv">GFD-1191</a>
+              <a href="https://jira.navercorp.com/browse/GFD-1153" target="_blank" class="ticket-chip inv">GFD-1153</a>
+              <a href="https://jira.navercorp.com/browse/GFD-943" target="_blank" class="ticket-chip inv">GFD-943</a>
+              <a href="https://jira.navercorp.com/browse/GFD-912" target="_blank" class="ticket-chip inv">GFD-912</a>
+              <a href="https://jira.navercorp.com/browse/GFD-893" target="_blank" class="ticket-chip inv">GFD-893</a>
+              <a href="https://jira.navercorp.com/browse/GFD-891" target="_blank" class="ticket-chip inv">GFD-891</a>
+              <a href="https://jira.navercorp.com/browse/GFD-618" target="_blank" class="ticket-chip inv">GFD-618</a>
+              <a href="https://jira.navercorp.com/browse/GFP_SUPPORT-399" target="_blank" class="ticket-chip inv">GFP_SUPPORT-399</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-309" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-309</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-301" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-301</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-300" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-300</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-299" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-299</a>
+            </div>
+          </div>
+
+          <div class="type-card yellow">
+            <div class="type-card-header">
+              <div class="type-badge yellow">C</div>
+              <span class="type-pct">20%</span>
+            </div>
+            <h3>SDK / 기술 연동 문제</h3>
+            <span class="solvable-tag partial">🟡 일부 자가해결</span>
+            <div class="type-section-label">주요 원인</div>
+            <ul class="cause-list">
+              <li>키밸류 파라미터 미전달</li>
+              <li>payload 오류</li>
+              <li>SDK 버전 미지원</li>
+            </ul>
+            <div class="type-section-label">실제 사례</div>
+            <div class="case-box">ftm:rehddml 파라미터 미전달 → 타겟팅 노출 0 (네이버페이)<br><a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-283" target="_blank">GLAD_SUPPORT_WT-283</a> iOS SDK payload 오류</div>
+            <div class="type-section-label">체크리스트</div>
+            <ul class="checklist">
+              <li>SDK 버전 확인 (최신 버전 사용 여부)</li>
+              <li>파라미터 전달 로그 확인</li>
+              <li>프록시 툴로 요청/응답 확인</li>
+            </ul>
+            <div class="type-section-label">분류 근거 티켓</div>
+            <div class="ticket-chips">
+              <a href="https://jira.navercorp.com/browse/GFP_SUPPORT-292" target="_blank" class="ticket-chip inv">GFP_SUPPORT-292</a>
+              <a href="https://jira.navercorp.com/browse/GFP_SUPPORT-345" target="_blank" class="ticket-chip inv">GFP_SUPPORT-345</a>
+              <a href="https://jira.navercorp.com/browse/GFP_SUPPORT-344" target="_blank" class="ticket-chip inv">GFP_SUPPORT-344</a>
+              <a href="https://jira.navercorp.com/browse/GFP_SUPPORT-335" target="_blank" class="ticket-chip inv">GFP_SUPPORT-335</a>
+              <a href="https://jira.navercorp.com/browse/GFP_SUPPORT-334" target="_blank" class="ticket-chip inv">GFP_SUPPORT-334</a>
+              <a href="https://jira.navercorp.com/browse/GFP_SUPPORT-265" target="_blank" class="ticket-chip inv">GFP_SUPPORT-265</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-283" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-283</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-331" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-331</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-303" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-303</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-207" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-207</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-177" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-177</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-118" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-118</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-63" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-63</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_SN-42" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_SN-42</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_SN-40" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_SN-40</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_SN-31" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_SN-31</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_SN-15" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_SN-15</a>
+            </div>
+          </div>
+
+          <div class="type-card green">
+            <div class="type-card-header">
+              <div class="type-badge green">D</div>
+              <span class="type-pct">15%</span>
+            </div>
+            <h3>타겟팅 / 경쟁 문제</h3>
+            <span class="solvable-tag self">🟢 자가해결 가능</span>
+            <div class="type-section-label">주요 원인</div>
+            <ul class="cause-list">
+              <li>지나치게 좁은 타겟팅</li>
+              <li>CPM 우선순위에 밀림</li>
+              <li>지역 단위 불일치 (시↔구)</li>
+              <li>프리퀀시 캡 초과</li>
+            </ul>
+            <div class="priority-box">우선순위: CPM(최우선) &gt; CPTA &gt; CPTR(최하위)</div>
+            <div class="type-section-label">실제 사례</div>
+            <div class="case-box">CPTR 3순위 → CPM에 밀림 (네이버페이)<br>인/태/대 지역 Cohort 타겟팅 불일치 (<a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-157" target="_blank">GLAD_SUPPORT_WT-157</a>)</div>
+            <div class="type-section-label">분류 근거 티켓</div>
+            <div class="ticket-chips">
+              <a href="https://jira.navercorp.com/browse/GFD-904" target="_blank" class="ticket-chip inv">GFD-904</a>
+              <a href="https://jira.navercorp.com/browse/GFD-540" target="_blank" class="ticket-chip inv">GFD-540</a>
+              <a href="https://jira.navercorp.com/browse/GFP_SUPPORT-397" target="_blank" class="ticket-chip inv">GFP_SUPPORT-397</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-157" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-157</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-278" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-278</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-34" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-34</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-13" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-13</a>
+            </div>
+          </div>
+
+          <div class="type-card green">
+            <div class="type-card-header">
+              <div class="type-badge green">E</div>
+              <span class="type-pct">10%</span>
+            </div>
+            <h3>환경(Dev/Beta) 특성</h3>
+            <span class="solvable-tag self">🟢 자가해결 가능</span>
+            <div class="type-section-label">주요 원인</div>
+            <ul class="cause-list">
+              <li>Dev/Beta 환경 설정 미완료</li>
+              <li>Beta 소재 미등록</li>
+              <li>환경별 계정 미설정</li>
+            </ul>
+            <div class="type-section-label">환경별 가이드</div>
+            <div class="env-grid">
+              <div class="env-item dev"><strong>Dev</strong>테스트 설정 필요</div>
+              <div class="env-item beta"><strong>Beta</strong>Beta 계정 필요</div>
+              <div class="env-item real"><strong>Real</strong>정상 운영</div>
+            </div>
+            <div class="type-section-label">분류 근거 티켓</div>
+            <div class="ticket-chips">
+              <a href="https://jira.navercorp.com/browse/GFP_SUPPORT-419" target="_blank" class="ticket-chip inv">GFP_SUPPORT-419</a>
+              <a href="https://jira.navercorp.com/browse/GFP_SUPPORT-380" target="_blank" class="ticket-chip inv">GFP_SUPPORT-380</a>
+              <a href="https://jira.navercorp.com/browse/GFP_SUPPORT-327" target="_blank" class="ticket-chip inv">GFP_SUPPORT-327</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-348" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-348</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-323" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-323</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-260" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-260</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-251" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-251</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-200" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-200</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-98" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-98</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-84" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-84</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-55" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-55</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-46" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-46</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_SN-13" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_SN-13</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_SN-11" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_SN-11</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_SN-10" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_SN-10</a>
+            </div>
+          </div>
+
+          <div class="type-card red">
+            <div class="type-card-header">
+              <div class="type-badge red">F</div>
+              <span class="type-pct">10%</span>
+            </div>
+            <h3>시스템 동기화 문제</h3>
+            <span class="solvable-tag dev">🔴 개발팀 필요</span>
+            <div class="type-section-label">주요 원인</div>
+            <ul class="cause-list">
+              <li>GFP-GFD 사이즈 Validation 불일치</li>
+              <li>싱크 배치 실패</li>
+              <li>배포 후 스케줄 감지 실패</li>
+            </ul>
+            <div class="type-section-label">실제 사례</div>
+            <div class="case-box">스플래시 미노출 → GFD 배포로 스케줄 감지 실패 (라인웹툰)<br>GFP_NO_FILL (AOS만) → 싱크 배치 실패</div>
+            <div class="type-section-label">대응 방법</div>
+            <ul class="checklist">
+              <li>개발팀 JIRA 이슈 생성</li>
+              <li>싱크 배치 재실행 요청</li>
+              <li>배포 이력 및 로그 첨부</li>
+            </ul>
+            <div class="type-section-label">분류 근거 티켓</div>
+            <div class="ticket-chips">
+              <a href="https://jira.navercorp.com/browse/GFD-646" target="_blank" class="ticket-chip inv">GFD-646</a>
+              <a href="https://jira.navercorp.com/browse/GFD-650" target="_blank" class="ticket-chip inv">GFD-650</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-336" target="_blank" class="ticket-chip inv">GLAD_SUPPORT_WT-336</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- INV TAB 2: 자가진단 플로우 -->
+      <div class="tab-pane" id="tab-inv-flow">
+        <h2 class="section-title">🔍 미노출 자가진단 플로우차트</h2>
+        <div class="flow-container">
+
+          <div class="flow-start green">⚠️ 광고 미노출 발생</div>
+          <div class="flow-arrow"><div class="arrow-line"></div>▼</div>
+
+          <div class="flow-step">
+            <span class="step-label green-lbl">STEP 1</span>
+            <div class="step-question">광고 상태 확인<br><small style="font-weight:400;color:#666;">캠페인 / 광고그룹 / 소재 모두 "게재중"인가?</small></div>
+            <div class="flow-branches">
+              <div class="branch yes"><span class="branch-label">NO</span><div class="branch-action">게재 ON으로 변경<br><span class="resolve-tag">✅ 해결</span></div></div>
+              <div class="branch cont"><span class="branch-label">YES →</span><div class="branch-action">다음 단계로</div></div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="arrow-line"></div>▼</div>
+
+          <div class="flow-step">
+            <span class="step-label green-lbl">STEP 2</span>
+            <div class="step-question">소재 사이즈 확인<br><small style="font-weight:400;color:#666;">소재 사이즈가 인벤토리 허용 사이즈에 포함되는가?</small></div>
+            <div class="flow-branches">
+              <div class="branch yes"><span class="branch-label">NO</span><div class="branch-action">허용 사이즈로 소재 재등록<br><span class="resolve-tag">✅ 해결</span></div></div>
+              <div class="branch cont"><span class="branch-label">YES →</span><div class="branch-action">다음 단계로</div></div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="arrow-line"></div>▼</div>
+
+          <div class="flow-step">
+            <span class="step-label green-lbl">STEP 3</span>
+            <div class="step-question">환경 확인<br><small style="font-weight:400;color:#666;">Dev / Beta 환경인가?</small></div>
+            <div class="flow-branches">
+              <div class="branch yes"><span class="branch-label">YES</span><div class="branch-action">Beta 계정 세팅 확인<br><span class="resolve-tag">✅ 해결</span></div></div>
+              <div class="branch cont"><span class="branch-label">Real →</span><div class="branch-action">다음 단계로</div></div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="arrow-line"></div>▼</div>
+
+          <div class="flow-step">
+            <span class="step-label green-lbl">STEP 4</span>
+            <div class="step-question">타겟팅 / 경쟁 확인<br><small style="font-weight:400;color:#666;">타겟팅이 너무 좁거나 CPM 광고에 밀리는가?</small></div>
+            <div class="flow-branches">
+              <div class="branch yes"><span class="branch-label">YES</span><div class="branch-action">타겟팅 완화 또는 CPM 전환<br><span class="resolve-tag">✅ 해결</span></div></div>
+              <div class="branch cont"><span class="branch-label">NO →</span><div class="branch-action">다음 단계로</div></div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="arrow-line"></div>▼</div>
+
+          <div class="flow-step">
+            <span class="step-label green-lbl">STEP 5</span>
+            <div class="step-question">SDK / 파라미터 확인 <span style="font-size:11px;font-weight:400;">(기술 연동의 경우)</span><br><small style="font-weight:400;color:#666;">필수 파라미터가 모두 전달되는가?</small></div>
+            <div class="flow-branches">
+              <div class="branch yes"><span class="branch-label">NO</span><div class="branch-action">SDK 가이드 재확인, 파라미터 추가<br><span class="resolve-tag">✅ 해결</span></div></div>
+              <div class="branch cont"><span class="branch-label">YES →</span><div class="branch-action">에스컬레이션</div></div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="arrow-line"></div>▼</div>
+
+          <div class="flow-escalate green-esc">
+            <div class="esc-title">📌 STEP 6 — JIRA 문의 (에스컬레이션)</div>
+            <p style="font-size:12px;opacity:0.85;margin-bottom:10px;">자가진단 해결 불가 시 아래 공식 양식([GLAD] 광고 미노출)에 맞게 필수 정보를 작성하여 문의 채널에 이슈를 생성하세요.</p>
+            <div style="background:rgba(255,255,255,0.12);border-radius:8px;padding:10px 14px;margin-bottom:10px;font-size:11.5px;line-height:1.9;border:1px solid rgba(255,255,255,0.2);">
+              <p style="font-weight:700;margin-bottom:4px;font-size:12px;">✅ JIRA 문의 전 운영가이드 확인 필수</p>
+              <p style="font-weight:600;margin-bottom:2px;">① 환경 정보 (Account Details)</p>
+              <span style="opacity:0.85;">환경(BETA/REAL) · 퍼블리셔/대행사 · 캠페인명 · 광고그룹명/ID · 광고소재명/ID · 광고유닛 ID(Ad Unit ID)</span><br>
+              <p style="font-weight:600;margin-bottom:2px;margin-top:4px;">② 상세 내용 (Required Information)</p>
+              <span style="opacity:0.85;">발생 일자(YYYY-MM-DD) · 오류 내용(간헐적/완전 미노출 구분) · 재현 과정(Steps to Reproduce)</span><br>
+              <p style="font-weight:600;margin-bottom:2px;margin-top:4px;">③ 기타 (Other Information)</p>
+              <span style="opacity:0.85;">스크린샷 · 추가 자료 첨부</span>
+            </div>
+            <div class="channel-grid">
+              <div class="channel-item"><strong>웹툰/LINE</strong>GLAD_SUPPORT_WT</div>
+              <div class="channel-item"><strong>Snow/KREAM 등</strong>GLAD_SUPPORT_SN</div>
+              <div class="channel-item"><strong>기타 퍼블리셔</strong>GLAD_SUPPORT_WP</div>
+              <div class="channel-item"><strong>GFP 연동</strong>GFP_SUPPORT</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- INV TAB: 관리자 사전 점검 -->
+      <div class="tab-pane" id="tab-inv-precheck">
+        <h2 class="section-title">🔎 관리자 사전 점검 가이드 — 미노출</h2>
+        <p style="color:var(--gray-700);margin-bottom:18px;font-size:13px;">개발자 에스컬레이션 전, 관리자(기획·운영자)가 직접 확인할 수 있는 5단계 점검입니다. 각 단계를 순서대로 진행하고 이상이 없으면 다음 단계로 넘어가세요.</p>
+
+        <!-- PHASE 1 -->
+        <div class="case-box" style="border-left-color:var(--green);">
+          <div class="case-header" style="background:var(--green-light);">
+            <span class="case-badge" style="background:var(--green);color:#fff;">PHASE 1</span>
+            <strong>GFD 어드민 — 기본 상태 점검</strong>
+          </div>
+          <div class="case-body">
+            <table style="width:100%;border-collapse:collapse;font-size:13px;">
+              <thead><tr style="background:var(--gray-100);">
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);width:40%;">확인 항목</th>
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);">점검 방법 &amp; 기대값</th>
+              </tr></thead>
+              <tbody>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">캠페인 상태</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">GFD 어드민 &gt; 캠페인 목록 &gt; 상태 칼럼 = <strong>운영중</strong> 확인 (일시중지·종료 아닌지)</td></tr>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">광고그룹 상태</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">해당 광고그룹 상태 = <strong>운영중</strong> 확인 (예산 소진으로 자동 중지 여부 확인)</td></tr>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">소재 상태</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">소재 심사 상태 = <strong>승인</strong> (심사중·반려 시 미노출 정상)</td></tr>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">일 예산 / 전체 예산</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">잔여 예산 &gt; 0 확인. 당일 소진 시 익일 자정 리셋됨</td></tr>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">캠페인 기간</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">시작일 ≤ 오늘 ≤ 종료일 확인. 종료일 경과 시 자동 종료</td></tr>
+                <tr><td style="padding:7px 10px;">광고그룹 노출 시간대</td><td style="padding:7px 10px;">현재 시각이 설정된 노출 허용 시간대 내인지 확인</td></tr>
+              </tbody>
+            </table>
+            <div class="checklist-box" style="margin-top:12px;">
+              <p style="font-size:12px;color:var(--gray-700);"><strong>✅ PHASE 1 통과 기준:</strong> 위 항목 전체 이상 없음 → PHASE 2로 이동<br>❌ 이상 발견 시: 해당 항목 수정 후 재확인. 개발자 에스컬레이션 불필요.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PHASE 2 -->
+        <div class="case-box" style="border-left-color:#3d7eff;margin-top:16px;">
+          <div class="case-header" style="background:var(--blue-light);">
+            <span class="case-badge" style="background:#3d7eff;color:#fff;">PHASE 2</span>
+            <strong>소재 적합성 점검</strong>
+          </div>
+          <div class="case-body">
+            <table style="width:100%;border-collapse:collapse;font-size:13px;">
+              <thead><tr style="background:var(--gray-100);">
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);width:40%;">확인 항목</th>
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);">점검 방법 &amp; 기대값</th>
+              </tr></thead>
+              <tbody>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">소재 사이즈 vs 지면 사이즈</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">GFD 어드민 &gt; 소재 상세 &gt; 가로×세로 px 확인. 게재 지면 규격과 일치 여부 대조 (예: 300×250, 320×50)</td></tr>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">소재 유형 vs 지면 지원 유형</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">배너/네이티브/동영상 유형이 해당 지면에서 지원하는 유형인지 GFP 어드민 지면 설정과 대조</td></tr>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">VAST URL 직접 호출 (동영상)</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">브라우저에서 VAST URL 직접 입력 → 200 응답 &amp; XML 반환 확인. 오류 시 소재 자체 문제</td></tr>
+                <tr><td style="padding:7px 10px;">이미지/HTML 소재 URL 접근성</td><td style="padding:7px 10px;">소재 이미지 URL 직접 접근 → 200 응답 확인. CDN 만료·도메인 오류 시 소재 교체 필요</td></tr>
+              </tbody>
+            </table>
+            <div class="checklist-box" style="margin-top:12px;">
+              <p style="font-size:12px;color:var(--gray-700);"><strong>✅ PHASE 2 통과 기준:</strong> 사이즈 일치, 유형 일치, URL 200 응답 → PHASE 3으로 이동<br>❌ 이상 발견 시: 소재 수정·재업로드 또는 지면 변경. 개발자 에스컬레이션 불필요.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PHASE 3 -->
+        <div class="case-box" style="border-left-color:#ffcc00;margin-top:16px;">
+          <div class="case-header" style="background:var(--yellow-light);">
+            <span class="case-badge" style="background:#ffcc00;color:#333;">PHASE 3</span>
+            <strong>타겟팅 &amp; 경쟁 환경 점검</strong>
+          </div>
+          <div class="case-body">
+            <table style="width:100%;border-collapse:collapse;font-size:13px;">
+              <thead><tr style="background:var(--gray-100);">
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);width:40%;">확인 항목</th>
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);">점검 방법 &amp; 기대값</th>
+              </tr></thead>
+              <tbody>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">타겟팅 조건 범위</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">성별·연령·지역·디바이스 타겟팅이 지나치게 좁지 않은지 확인. 도·시 단위보다 넓게 설정 권장</td></tr>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">CPM 입찰가 경쟁력</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">동일 지면의 타 광고 CPM 대비 입찰가가 현저히 낮은 경우 낙찰 불가. CPM ↑ 또는 CPTA/CPTR 확인</td></tr>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">Frequency Cap 설정</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">Frequency Cap이 너무 낮게 설정되어 타겟 모수가 소진된 경우 노출 없음. Cap 값 상향 또는 제거 검토</td></tr>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">Target Frequency와 혼동 주의</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">Target Frequency(목표 도달 빈도)는 Frequency Cap(최대 노출 제한)과 다름. 설정 항목 재확인</td></tr>
+                <tr><td style="padding:7px 10px;">지역 타겟팅 단위</td><td style="padding:7px 10px;">특정 구·동 단위 타겟팅 시 모수 극소화 가능. 시·도 단위 이상으로 확대 테스트 권장</td></tr>
+              </tbody>
+            </table>
+            <div class="checklist-box" style="margin-top:12px;">
+              <p style="font-size:12px;color:var(--gray-700);"><strong>✅ PHASE 3 통과 기준:</strong> 타겟 범위 적정, 입찰가 경쟁력 있음, Frequency 설정 정상 → PHASE 4로 이동<br>❌ 이상 발견 시: 타겟 조정 또는 입찰가 수정. 개발자 에스컬레이션 불필요.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PHASE 4 -->
+        <div class="case-box" style="border-left-color:var(--orange);margin-top:16px;">
+          <div class="case-header" style="background:var(--orange-light);">
+            <span class="case-badge" style="background:var(--orange);color:#fff;">PHASE 4</span>
+            <strong>GFP 어드민 — 미디에이션 설정 점검</strong>
+          </div>
+          <div class="case-body">
+            <table style="width:100%;border-collapse:collapse;font-size:13px;">
+              <thead><tr style="background:var(--gray-100);">
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);width:40%;">확인 항목</th>
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);">점검 방법 &amp; 기대값</th>
+              </tr></thead>
+              <tbody>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">NAVER_DIRECT 활성화 여부</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">GFP 어드민 &gt; 미디에이션 설정 &gt; NAVER_DIRECT 항목 = <strong>활성화</strong> 확인</td></tr>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">지면 배너/네이티브 설정</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">GFP 지면에서 배너 또는 네이티브가 허용 유형으로 등록되어 있는지 확인</td></tr>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">GFP 지면 사이즈 등록</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">GFP 어드민 &gt; 지면 상세 &gt; 허용 사이즈 목록에 소재 사이즈가 포함되어 있는지 확인</td></tr>
+                <tr><td style="padding:7px 10px;">GFP SDK 버전</td><td style="padding:7px 10px;">퍼블리셔 앱/페이지에서 사용 중인 GFP SDK 버전이 최신 안정 버전인지 확인 (퍼블리셔 문의 필요할 수 있음)</td></tr>
+              </tbody>
+            </table>
+            <div class="checklist-box" style="margin-top:12px;">
+              <p style="font-size:12px;color:var(--gray-700);"><strong>✅ PHASE 4 통과 기준:</strong> NAVER_DIRECT 활성, 유형·사이즈 등록 정상 → PHASE 5로 이동<br>❌ 이상 발견 시: GFP 어드민에서 직접 수정 가능. 설정 변경 후 재확인.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PHASE 5 -->
+        <div class="case-box" style="border-left-color:#ff4b4b;margin-top:16px;">
+          <div class="case-header" style="background:var(--red-light);">
+            <span class="case-badge" style="background:#ff4b4b;color:#fff;">PHASE 5</span>
+            <strong>환경 확인 &amp; 최종 판정</strong>
+          </div>
+          <div class="case-body">
+            <table style="width:100%;border-collapse:collapse;font-size:13px;">
+              <thead><tr style="background:var(--gray-100);">
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);width:40%;">확인 항목</th>
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);">점검 방법 &amp; 기대값</th>
+              </tr></thead>
+              <tbody>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">Real / Beta / Dev 환경 구분</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">테스트 환경(Beta/Dev)에서만 미노출인지, Real 환경에서도 동일한지 확인. 환경별 설정이 다를 수 있음</td></tr>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">리포트 집계 시간 지연</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">GFD 리포트는 최대 1~2시간 지연될 수 있음. 실시간 노출 여부는 GFP 실시간 리포트 또는 Kibana로만 확인 가능</td></tr>
+                <tr><td style="padding:7px 10px;">광고 노출 직접 확인</td><td style="padding:7px 10px;">실제 지면(앱/웹)에서 해당 광고가 노출되는지 직접 확인. 캐시 초기화 후 재시도 권장</td></tr>
+              </tbody>
+            </table>
+            <div style="margin-top:16px;padding:14px;background:var(--gray-100);border-radius:8px;border:1px solid var(--gray-300);">
+              <p style="font-weight:700;font-size:13px;margin-bottom:10px;">🏁 최종 판정 기준</p>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;">
+                <div style="padding:10px;background:#fff;border-radius:6px;border:1px solid var(--green-mid);">
+                  <p style="color:var(--green-dark);font-weight:700;margin-bottom:4px;">✅ 관리자 자체 해결 가능</p>
+                  <ul style="padding-left:16px;color:var(--gray-700);line-height:1.8;">
+                    <li>PHASE 1~4에서 이상 항목 발견 &amp; 수정 완료</li>
+                    <li>설정 오류·소재 문제·타겟 과소</li>
+                    <li>환경 혼동(Beta ↔ Real)</li>
+                  </ul>
+                </div>
+                <div style="padding:10px;background:#fff;border-radius:6px;border:1px solid #ffcc00;">
+                  <p style="color:#b8860b;font-weight:700;margin-bottom:4px;">🔺 개발자 에스컬레이션 필요</p>
+                  <ul style="padding-left:16px;color:var(--gray-700);line-height:1.8;">
+                    <li>PHASE 1~5 모두 이상 없음에도 미노출</li>
+                    <li>특정 지면·디바이스에서만 재현</li>
+                    <li>리포트 데이터 이상 (0 impression에도 과금)</li>
+                  </ul>
+                </div>
+              </div>
+              <p style="margin-top:10px;font-size:12px;color:var(--gray-700);">에스컬레이션 시 <strong>PHASE 1~5 점검 결과</strong>와 <strong>재현 환경(OS/앱버전/URL)</strong>을 함께 전달하면 개발자 대응 속도가 크게 향상됩니다.</p>
+            </div>
+            <div style="margin-top:12px;padding:12px 14px;background:#fff;border-radius:8px;border:1px solid var(--green-mid);">
+              <p style="font-weight:700;font-size:12px;color:var(--green-dark);margin-bottom:8px;">📋 JIRA 에스컬레이션 시 준비 정보 체크리스트 (공식 양식 기준)</p>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;">
+                <div>
+                  <p style="font-weight:600;color:var(--gray-700);margin-bottom:4px;">① 환경 정보</p>
+                  <ul style="padding-left:14px;color:var(--gray-700);line-height:1.9;">
+                    <li>환경 구분: <strong>BETA / REAL</strong> 중 택 1</li>
+                    <li>퍼블리셔명 / 대행사명</li>
+                    <li>캠페인명 + <strong>캠페인 ID</strong></li>
+                    <li>광고그룹명 + <strong>광고그룹 ID</strong></li>
+                    <li>광고소재명 + <strong>소재 ID</strong></li>
+                    <li><strong>광고유닛 ID (Ad Unit ID)</strong></li>
+                  </ul>
+                </div>
+                <div>
+                  <p style="font-weight:600;color:var(--gray-700);margin-bottom:4px;">② 상세 내용 + 기타</p>
+                  <ul style="padding-left:14px;color:var(--gray-700);line-height:1.9;">
+                    <li>발생 일자 (YYYY-MM-DD)</li>
+                    <li>오류 내용: 간헐적 / 완전 미노출 구분</li>
+                    <li>다른 광고와 롤링 여부 명시</li>
+                    <li>재현 과정 (Steps to Reproduce)</li>
+                    <li>스크린샷 첨부</li>
+                    <li>PHASE 1~5 점검 결과 요약</li>
+                  </ul>
+                </div>
+              </div>
+              <p style="margin-top:8px;font-size:11.5px;color:var(--gray-500);">💡 ID 확인 방법: GFD 어드민 목록 화면 우측 '열 맞춤 설정' → 'ID' 선택 후 저장 → 목록에서 확인</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INV TAB 3: 자동 응답 템플릿 -->
+      <div class="tab-pane" id="tab-inv-templates">
+        <h2 class="section-title">📝 미노출 자동 응답 템플릿 (3종)</h2>
+
+        <div class="template-card">
+          <div class="template-header green-hdr">
+            <h3>🔔 초기 접수 자동 응답 — 자가진단 체크리스트 안내</h3>
+            <button class="copy-btn green-btn" data-target="inv-tpl1">복사</button>
+          </div>
+          <pre class="template-code" id="inv-tpl1">안녕하세요. GFD 광고 운영팀입니다.
+
+광고 미노출 문의를 접수하였습니다.
+담당자가 확인하기 전에 아래 자가진단 체크리스트를 먼저 확인해 주시면
+빠른 해결에 도움이 됩니다.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[ 자가진단 체크리스트 ]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ STEP 1. 광고 상태 확인
+   - 캠페인 / 광고그룹 / 소재가 모두 "게재중" 상태인지 확인
+
+✅ STEP 2. 소재 사이즈 확인
+   - 등록한 소재 사이즈가 해당 인벤토리 허용 사이즈에 포함되는지 확인
+
+✅ STEP 3. 환경 확인
+   - Dev / Beta 환경에서 테스트하는 경우 환경별 세팅 완료 여부 확인
+
+✅ STEP 4. 예산 및 기간 확인
+   - 예산 소진 또는 집행 기간이 만료되지 않았는지 확인
+
+위 항목 확인 후에도 미노출 지속 시 아래 공식 양식에 맞게 작성하여 JIRA 이슈를 생성해 주세요.
+(GLAD_SUPPORT_WT / GLAD_SUPPORT_SN / GLAD_SUPPORT_WP / GFP_SUPPORT)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[ JIRA 문의 시 필수 기재 항목 ]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+① 환경 정보
+   - 환경(Environment)             : BETA / REAL (택 1)
+   - 퍼블리셔/대행사                :
+   - 캠페인명/ID                    :
+   - 광고그룹명/ID                  :
+   - 광고소재명/ID                  :
+   - 광고유닛 ID(Ad Unit ID)        :
+   ※ ID 확인: 어드민 목록 → '열 맞춤 설정' → 'ID' 선택
+
+② 상세 내용
+   - 발생 일자                      : YYYY-MM-DD
+   - 오류 내용(간헐적/완전 미노출 구분):
+   - 재현 과정(Steps to Reproduce)  :
+
+③ 기타
+   - 스크린샷 / 로그 첨부
+
+감사합니다.
+GFD 지원팀 드림</pre>
+        </div>
+
+        <div class="template-card">
+          <div class="template-header green-hdr">
+            <h3>📐 소재 사이즈 불일치 — 재등록 안내</h3>
+            <button class="copy-btn green-btn" data-target="inv-tpl2">복사</button>
+          </div>
+          <pre class="template-code" id="inv-tpl2">안녕하세요. GFD 광고 운영팀입니다.
+
+문의하신 광고 미노출 건을 확인한 결과,
+등록된 소재의 사이즈가 해당 인벤토리에서 지원하지 않는 사이즈로 확인되었습니다.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[ 확인된 문제 ]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+• 등록 소재 사이즈  : [현재 소재 사이즈 기재]
+• 해당 인벤토리 지원 사이즈 :
+  - PC  : 300×250, 728×90, 160×600
+  - Mobile : 320×50, 320×100, 300×250
+  ※ 인벤토리별 허용 사이즈는 GFD 위키 참고
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[ 조치 요청 사항 ]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+위 허용 사이즈에 맞는 소재로 재등록 후 광고 집행 상태를 재확인해 주세요.
+재등록 후에도 동일한 문제가 지속될 경우 다시 문의해 주시기 바랍니다.
+
+감사합니다.
+GFD 지원팀 드림</pre>
+        </div>
+
+        <div class="template-card">
+          <div class="template-header green-hdr">
+            <h3>🎯 타겟팅 / 우선순위 — CPM 우선순위 구조 안내</h3>
+            <button class="copy-btn green-btn" data-target="inv-tpl3">복사</button>
+          </div>
+          <pre class="template-code" id="inv-tpl3">안녕하세요. GFD 광고 운영팀입니다.
+
+문의하신 광고 미노출 건을 확인한 결과,
+광고 노출 우선순위 또는 타겟팅 설정으로 인한 노출 부족으로 판단됩니다.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[ GFD 광고 노출 우선순위 구조 ]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1순위 (최우선)  CPM 광고
+  2순위           CPTA 광고
+  3순위 (최하위)  CPTR 광고
+
+현재 설정된 광고 유형이 하위 우선순위인 경우,
+동일 인벤토리에 CPM 광고가 존재하면 노출이 제한될 수 있습니다.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[ 권장 조치 ]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+① 가능한 경우 CPM 방식으로 전환하여 우선순위 확보
+② 타겟팅 범위 확대 (지역, 연령, 기기 등 조건 완화)
+③ 프리퀀시 캡 설정 확인 및 조정
+
+감사합니다.
+GFD 지원팀 드림</pre>
+        </div>
+
+        <div class="template-card" style="margin-top:16px;border:2px solid var(--green-mid);">
+          <div class="template-header green-hdr" style="background:linear-gradient(135deg,var(--green-dark),var(--green));">
+            <h3>📋 JIRA 에스컬레이션 양식 — [GLAD] 광고 미노출 공식 템플릿</h3>
+            <button class="copy-btn green-btn" data-target="inv-tpl4">복사</button>
+          </div>
+          <div style="padding:10px 16px 4px;background:var(--green-light);border-bottom:1px solid var(--green-mid);font-size:12px;color:var(--green-dark);">
+            💡 JIRA 문의 게시판(<strong>GLAD_SUPPORT_WT / GLAD_SUPPORT_SN / GLAD_SUPPORT_WP</strong>)에 이슈 생성 시 아래 공식 양식을 사용하세요.<br>
+            ※ 문의 전 <strong>퍼블리셔 운영가이드</strong> 확인 필수 · 중복된 캠페인/광고그룹명이 있을 수 있으므로 <strong>ID 기재 필수</strong>
+          </div>
+          <pre class="template-code" id="inv-tpl4">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[GLAD] 광고 미노출 문의
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ 사전 확인: 광고 미노출 시 퍼블리셔 운영가이드를 확인하였습니다.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. 환경 정보 (Account Details)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+환경(Environment)          : BETA / REAL  ← 해당 항목 선택
+퍼블리셔/대행사(Account/Agency) :
+캠페인명(Campaign name)        :
+광고그룹명/ID(Ad Group name/ID)  :
+광고소재명/ID(Ad Creative name/ID):
+광고유닛 ID(Ad Unit ID)         :
+
+  ※ ID 확인 방법: 목록 화면 우측 '열 맞춤 설정' → 'ID' 선택 후 저장 → 목록에서 확인
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. 상세 내용 (Required Information)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+발생 일자(Date of Occurrence)   : YYYY-MM-DD
+오류 내용(Error Description)    :
+  ※ 예: 간헐적 미노출 (다른 광고와 롤링 중인지 여부 포함) / 완전 미노출 / 특정 디바이스만 미노출
+재현 과정(Steps to Reproduce)   :
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. 기타 (Other Information)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+스크린샷(Screenshot)            : (첨부)
+기타 추가 자료(Additional docs)  : (첨부)</pre>
+        </div>
+      </div>
+
+      <!-- INV TAB 4: 아카이빙 -->
+      <div class="tab-pane" id="tab-inv-archive">
+        <h2 class="section-title">🗃️ 미노출 아카이빙 방법론</h2>
+
+        <div class="archive-section">
+          <h3>JIRA 레이블 체계</h3>
+          <table class="label-table">
+            <thead>
+              <tr>
+                <th class="green-th">레이블</th>
+                <th class="green-th">의미</th>
+                <th class="green-th">유형</th>
+                <th class="green-th">자가해결</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="label-chip green-chip">ad-invisible-A</span></td><td>소재 / 크리에이티브 문제</td><td>A유형</td><td style="color:var(--green);font-weight:700;">가능</td></tr>
+              <tr><td><span class="label-chip green-chip">ad-invisible-B</span></td><td>광고 세팅 / 상태 문제</td><td>B유형</td><td style="color:var(--green);font-weight:700;">가능</td></tr>
+              <tr><td><span class="label-chip green-chip">ad-invisible-C</span></td><td>SDK / 기술 연동 문제</td><td>C유형</td><td style="color:#b38600;font-weight:700;">일부 가능</td></tr>
+              <tr><td><span class="label-chip green-chip">ad-invisible-D</span></td><td>타겟팅 / 경쟁 문제</td><td>D유형</td><td style="color:var(--green);font-weight:700;">가능</td></tr>
+              <tr><td><span class="label-chip green-chip">ad-invisible-E</span></td><td>환경(Dev/Beta) 특성</td><td>E유형</td><td style="color:var(--green);font-weight:700;">가능</td></tr>
+              <tr><td><span class="label-chip green-chip">ad-invisible-F</span></td><td>시스템 동기화 문제</td><td>F유형</td><td style="color:var(--red);font-weight:700;">개발팀 필요</td></tr>
+              <tr><td><span class="label-chip green-chip">self-resolved</span></td><td>퍼블리셔 자가해결 완료</td><td>-</td><td>-</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="archive-section">
+          <h3>분기별 리뷰 프로세스</h3>
+          <div class="timeline">
+            <div class="timeline-item"><span class="tl-label green-lbl">분기 1주차</span><div class="tl-desc">전분기 미노출 이슈 레이블 일괄 정리 및 유형 재분류. JIRA 필터로 레이블별 건수 집계.</div></div>
+            <div class="timeline-item"><span class="tl-label green-lbl">분기 2~4주차</span><div class="tl-desc">신규 이슈 발생 시 즉시 레이블 태깅. 반복 이슈 패턴 모니터링.</div></div>
+            <div class="timeline-item"><span class="tl-label green-lbl">분기 중반 (7주차)</span><div class="tl-desc">중간 집계: 유형별 발생 비율, 자가해결률 산출. FAQ 문서 업데이트 필요 항목 도출.</div></div>
+            <div class="timeline-item"><span class="tl-label green-lbl">분기 말 (12주차)</span><div class="tl-desc">최종 리뷰: 주요 유형 TOP3, 재발 방지 액션 아이템 도출. 다음 분기 가이드 업데이트.</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /topic-invisible -->
+
+    <!-- =============================== -->
+    <!--  TOPIC B: 과노출·과집계          -->
+    <!-- =============================== -->
+    <div class="topic-section" id="topic-over">
+
+      <nav class="tab-nav" role="tablist">
+        <button class="tab-btn over-inner active" data-tab="ov-types">📋 유형 분류</button>
+        <button class="tab-btn over-inner" data-tab="ov-flow">🔍 자가진단 플로우</button>
+        <button class="tab-btn over-inner" data-tab="ov-templates">📝 자동 응답 템플릿</button>
+        <button class="tab-btn over-inner" data-tab="ov-precheck">🔎 관리자 사전 점검</button>
+        <button class="tab-btn over-inner" data-tab="ov-archive">🗃️ 아카이빙 방법론</button>
+      </nav>
+
+      <!-- OV TAB 1: 유형 분류 -->
+      <div class="tab-pane active" id="tab-ov-types">
+        <h2 class="section-title orange">⚡ 과노출·과송출·과집계 유형 분류 (4가지)</h2>
+        <div class="type-grid" style="grid-template-columns: repeat(2,1fr);">
+
+          <div class="type-card orange">
+            <div class="type-card-header">
+              <div class="type-badge orange">P</div>
+              <span class="type-pct orange">30%</span>
+            </div>
+            <h3>캠페인 배분 / 예측 알고리즘 오류 (과송출)</h3>
+            <span class="solvable-tag dev">🔴 개발팀 확인 필요</span>
+            <div class="type-section-label">주요 원인</div>
+            <ul class="cause-list orange-bullet">
+              <li>예측치 오생성 → 라이브 직후 물량 집중</li>
+              <li>GCPM 재계획 로직(AdGroupReplanJob) 오류</li>
+              <li>데이터/로그 지연 → 송출 확률 과다 상향</li>
+            </ul>
+            <div class="type-section-label">실제 사례</div>
+            <div class="case-box orange"><a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-346" target="_blank">GLAD_SUPPORT_WT-346</a>: CPM 12일치 물량이 반나절 만에 소진 (예측치 오생성)<br><a href="https://jira.navercorp.com/browse/GFD-1319" target="_blank">GFD-1319</a>: 4/8~4/13 로그 지연 → 송출 확률 상향 → 과송출 (라인웹툰)<br><a href="https://jira.navercorp.com/browse/GFD-1314" target="_blank">GFD-1314</a>: AdGroupReplanJob 실행 시 이후 예약 노출 전체 제거 버그</div>
+            <div class="type-section-label">문의 필수 정보</div>
+            <ul class="checklist orange-check">
+              <li>캠페인 ID / 광고그룹 ID</li>
+              <li>목표 노출수 vs 현재 소진 노출수 (리포트 캡처)</li>
+              <li>캠페인 라이브 시점 대비 예측치 생성 시점</li>
+              <li>과송출 발생 일시 (시작~종료)</li>
+            </ul>
+            <div class="type-section-label">분류 근거 티켓</div>
+            <div class="ticket-chips">
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-346" target="_blank" class="ticket-chip ov">GLAD_SUPPORT_WT-346</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-330" target="_blank" class="ticket-chip ov">GLAD_SUPPORT_WT-330</a>
+              <a href="https://jira.navercorp.com/browse/GFD-1319" target="_blank" class="ticket-chip ov">GFD-1319</a>
+              <a href="https://jira.navercorp.com/browse/GFD-1314" target="_blank" class="ticket-chip ov">GFD-1314</a>
+            </div>
+          </div>
+
+          <div class="type-card yellow">
+            <div class="type-card-header">
+              <div class="type-badge yellow">Q</div>
+              <span class="type-pct orange">25%</span>
+            </div>
+            <h3>Frequency Cap 미설정 / 오작동 (과노출)</h3>
+            <span class="solvable-tag partial">🟡 일부 자가해결 가능</span>
+            <div class="type-section-label">개념 정리</div>
+            <div class="priority-box orange">
+              Frequency = Impression ÷ Reach<br>
+              Target Frequency: 도달↓ 빈도↑ (브랜딩 각인)<br>
+              Frequency Cap: 도달↑ 빈도↓ (넓은 도달)
+            </div>
+            <div class="type-section-label">주요 원인</div>
+            <ul class="cause-list orange-bullet">
+              <li>Frequency Cap 미설정 → 무제한 반복 노출</li>
+              <li>설정 버그 → 제한 미적용</li>
+              <li>Target Frequency/Cap 개념 혼동</li>
+            </ul>
+            <div class="type-section-label">실제 사례</div>
+            <div class="case-box orange"><a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-206" target="_blank">GLAD_SUPPORT_WT-206</a>: LINE Manga 프리퀀시 설정에도 1% 케이스에서 비정상 노출<br><a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-202" target="_blank">GLAD_SUPPORT_WT-202</a>: 프리퀀시 설정 시 제한 미작동 + 리포트 미집계</div>
+            <div class="type-section-label">설정 가이드</div>
+            <ul class="checklist orange-check">
+              <li>Frequency Cap 범위: 1 이상 30 미만 (정수)</li>
+              <li>설정 단위: 시간 / 일 / 주 / 기간 전체</li>
+              <li>권장: 브랜딩 일 3회, 퍼포먼스 일 5회 이하</li>
+            </ul>
+            <div class="type-section-label">분류 근거 티켓</div>
+            <div class="ticket-chips">
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-206" target="_blank" class="ticket-chip ov">GLAD_SUPPORT_WT-206</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-202" target="_blank" class="ticket-chip ov">GLAD_SUPPORT_WT-202</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-243" target="_blank" class="ticket-chip ov">GLAD_SUPPORT_WT-243</a>
+            </div>
+          </div>
+
+          <div class="type-card red">
+            <div class="type-card-header">
+              <div class="type-badge red">R</div>
+              <span class="type-pct orange">25%</span>
+            </div>
+            <h3>집계 / 리포트 오류 (과집계)</h3>
+            <span class="solvable-tag dev">🔴 개발팀/운영팀 확인 필요</span>
+            <div class="type-section-label">주요 원인</div>
+            <ul class="cause-list orange-bullet">
+              <li>스와이프/스크롤 이벤트 중복 카운팅</li>
+              <li>GFP-광고공급자(DSP) 간 집계 기준 불일치</li>
+              <li>특정 일자 이상치 데이터 발생 (버그성)</li>
+            </ul>
+            <div class="type-section-label">실제 사례</div>
+            <div class="case-box orange"><a href="https://jira.navercorp.com/browse/GFP_SUPPORT-237" target="_blank">GFP_SUPPORT-237</a>: 네이버쇼핑 지면 PV 대비 노출수 15배 과집계. 스와이프 카운팅 오류 추정. CPM 예산 조기 소진<br><a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-97" target="_blank">GLAD_SUPPORT_WT-97</a>: NAVER Direct 8/28 USD Revenue $1,601,358 이상치<br><a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-17" target="_blank">GLAD_SUPPORT_WT-17</a>: Xandr, Unruly, Pangle 등 DSP 기준 vs GFP 기준 대규모 불일치</div>
+            <div class="type-section-label">문의 필수 정보</div>
+            <ul class="checklist orange-check">
+              <li>이상 발생 일시 (기간)</li>
+              <li>인벤토리/광고유닛 ID</li>
+              <li>과집계 전후 정상 수치 비교 데이터</li>
+              <li>광고공급자(DSP) 리포트 비교값</li>
+            </ul>
+            <div class="type-section-label">분류 근거 티켓</div>
+            <div class="ticket-chips">
+              <a href="https://jira.navercorp.com/browse/GFP_SUPPORT-237" target="_blank" class="ticket-chip ov">GFP_SUPPORT-237</a>
+              <a href="https://jira.navercorp.com/browse/GFP_SUPPORT-477" target="_blank" class="ticket-chip ov">GFP_SUPPORT-477</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-97" target="_blank" class="ticket-chip ov">GLAD_SUPPORT_WT-97</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-17" target="_blank" class="ticket-chip ov">GLAD_SUPPORT_WT-17</a>
+              <a href="https://jira.navercorp.com/browse/GLAD_SUPPORT_WT-29" target="_blank" class="ticket-chip ov">GLAD_SUPPORT_WT-29</a>
+            </div>
+          </div>
+
+          <div class="type-card blue">
+            <div class="type-card-header">
+              <div class="type-badge blue">S</div>
+              <span class="type-pct orange">20%</span>
+            </div>
+            <h3>퍼블리셔 설정 문제로 인한 과노출</h3>
+            <span class="solvable-tag self">🟢 자가해결 가능</span>
+            <div class="type-section-label">주요 원인</div>
+            <ul class="cause-list orange-bullet">
+              <li>동일 인벤토리에 다수 광고그룹 중복 세팅</li>
+              <li>예산 소진 속도 제어 미설정</li>
+              <li>노출 우선순위 구조 미이해</li>
+            </ul>
+            <div class="type-section-label">노출 우선순위</div>
+            <div class="priority-box orange">
+              CPM First View: 최우선 (500)<br>
+              CPTA First View: RTB Priority 600<br>
+              CPTA Frequency: RTB Priority 400<br>
+              CPM R&amp;F: 310
+            </div>
+            <div class="type-section-label">실제 사례</div>
+            <div class="case-box orange"><a href="https://jira.navercorp.com/browse/GFP_SUPPORT-379" target="_blank">GFP_SUPPORT-379</a>: GFD 어드민 동일 Ad Unit 중복 표시 (::1 접미사)<br><a href="https://jira.navercorp.com/browse/GFD-111" target="_blank">GFD-111</a>: 동영상 소재 등록 시 랜딩 URL 필드 중복 노출 (UI 버그)</div>
+            <div class="type-section-label">체크리스트</div>
+            <ul class="checklist orange-check">
+              <li>동일 인벤토리 연결 광고그룹 중복 여부 확인</li>
+              <li>예산 소진 속도 설정 (균등 배분 vs 빠른 소진)</li>
+              <li>Ad Unit 중복 표시 → 운영팀 문의</li>
+            </ul>
+            <div class="type-section-label">분류 근거 티켓</div>
+            <div class="ticket-chips">
+              <a href="https://jira.navercorp.com/browse/GFP_SUPPORT-379" target="_blank" class="ticket-chip ov">GFP_SUPPORT-379</a>
+              <a href="https://jira.navercorp.com/browse/GFD-111" target="_blank" class="ticket-chip ov">GFD-111</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- OV TAB 2: 자가진단 플로우 -->
+      <div class="tab-pane" id="tab-ov-flow">
+        <h2 class="section-title orange">🔍 과노출·과집계 자가진단 플로우차트</h2>
+        <div class="flow-container">
+
+          <div class="flow-start orange">⚡ 과노출 / 과송출 / 과집계 발생</div>
+          <div class="flow-arrow"><div class="arrow-line"></div>▼</div>
+
+          <div class="flow-step">
+            <span class="step-label orange-lbl">STEP 1</span>
+            <div class="step-question">과노출 유형 파악<br><small style="font-weight:400;color:#666;">어떤 현상이 발생하고 있나요?</small></div>
+            <div class="flow-branches" style="grid-template-columns:1fr 1fr;gap:8px;">
+              <div class="branch yes orange"><span class="branch-label">특정 사용자에게 반복 노출</span><div class="branch-action">→ Q유형 (Frequency Cap 확인)<br>STEP 2로 이동</div></div>
+              <div class="branch yes orange"><span class="branch-label">물량 조기 소진 / 빠른 소진</span><div class="branch-action">→ P유형 (예측/배분 오류)<br>STEP 3으로 이동</div></div>
+              <div class="branch yes orange"><span class="branch-label">리포트 수치가 비정상적으로 높음</span><div class="branch-action">→ R유형 (집계 오류)<br>STEP 4로 이동</div></div>
+              <div class="branch yes orange"><span class="branch-label">어드민 UI 중복 항목</span><div class="branch-action">→ S유형 (설정 문제)<br>STEP 5 건너뛰고 에스컬레이션</div></div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="arrow-line"></div>▼</div>
+
+          <div class="flow-step">
+            <span class="step-label orange-lbl">STEP 2</span>
+            <div class="step-question">Frequency Cap 설정 확인 (Q유형)<br><small style="font-weight:400;color:#666;">GFD 어드민 > 광고그룹 > 노출 빈도 설정 여부</small></div>
+            <div class="flow-branches">
+              <div class="branch yes orange"><span class="branch-label">미설정</span><div class="branch-action">Frequency Cap 추가 설정<br><span class="resolve-tag">✅ 해결</span></div></div>
+              <div class="branch cont"><span class="branch-label">설정됨 →</span><div class="branch-action">설정에도 과노출 지속<br>에스컬레이션 필요</div></div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="arrow-line"></div>▼</div>
+
+          <div class="flow-step">
+            <span class="step-label orange-lbl">STEP 3</span>
+            <div class="step-question">캠페인 배분 상태 확인 (P유형)<br><small style="font-weight:400;color:#666;">예측치가 라이브 24시간 전에 생성됐는가?</small></div>
+            <div class="flow-branches">
+              <div class="branch yes orange"><span class="branch-label">과송출 심각</span><div class="branch-action">즉시 캠페인 일시중지<br>→ 지원팀 긴급 문의</div></div>
+              <div class="branch cont"><span class="branch-label">경미 →</span><div class="branch-action">로그/데이터 지연 알림 확인<br>STEP 5로</div></div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="arrow-line"></div>▼</div>
+
+          <div class="flow-step">
+            <span class="step-label orange-lbl">STEP 4</span>
+            <div class="step-question">리포트 수치 비교 (R유형)<br><small style="font-weight:400;color:#666;">광고공급자 리포트 vs GFP 리포트 비교</small></div>
+            <div class="flow-branches">
+              <div class="branch yes orange"><span class="branch-label">불일치 확인</span><div class="branch-action">불일치 구간 및 유닛 특정 후<br>에스컬레이션</div></div>
+              <div class="branch cont"><span class="branch-label">일치 →</span><div class="branch-action">과집계 아닌 실제 노출<br>타겟팅 범위 재확인</div></div>
+            </div>
+          </div>
+          <div class="flow-arrow"><div class="arrow-line"></div>▼</div>
+
+          <div class="flow-escalate orange-esc">
+            <div class="esc-title">📌 STEP 5 — JIRA 문의 (에스컬레이션)</div>
+            <p style="font-size:12px;opacity:0.85;margin-bottom:10px;">⚠️ 과송출이 심각하다면 즉시 캠페인을 일시중지하고 문의해 주세요.</p>
+            <div class="channel-grid">
+              <div class="channel-item"><strong>과송출/예측 오류</strong>GFD 개발팀</div>
+              <div class="channel-item"><strong>집계 오류</strong>GLAD_SUPPORT_WT / GFP_SUPPORT</div>
+              <div class="channel-item"><strong>설정 중복 버그</strong>GFP_SUPPORT</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- OV TAB: 관리자 사전 점검 -->
+      <div class="tab-pane" id="tab-ov-precheck">
+        <h2 class="section-title" style="color:var(--orange-dark);">🔎 관리자 사전 점검 가이드 — 과노출</h2>
+        <p style="color:var(--gray-700);margin-bottom:18px;font-size:13px;">개발자 에스컬레이션 전, 관리자(기획·운영자)가 직접 확인할 수 있는 4단계 점검입니다. 과송출이 심각할 경우 PHASE 1(긴급 대응)을 먼저 수행하세요.</p>
+
+        <!-- PHASE 1 -->
+        <div class="case-box" style="border-left-color:#ff4b4b;">
+          <div class="case-header" style="background:var(--red-light);">
+            <span class="case-badge" style="background:#ff4b4b;color:#fff;">PHASE 1</span>
+            <strong>긴급 대응 — 과송출 즉시 판단</strong>
+          </div>
+          <div class="case-body">
+            <div style="padding:12px;background:#fff5f5;border:1px solid #ffcccc;border-radius:6px;margin-bottom:12px;font-size:13px;">
+              ⚠️ <strong>과송출 심각 기준:</strong> 일 예산 대비 실제 집행액이 120% 초과 또는 전일 동시간 대비 노출량 2배 이상
+            </div>
+            <table style="width:100%;border-collapse:collapse;font-size:13px;">
+              <thead><tr style="background:var(--gray-100);">
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);width:40%;">확인 항목</th>
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);">점검 방법 &amp; 조치</th>
+              </tr></thead>
+              <tbody>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">즉시 일시중지 판단</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">과송출 심각 시 GFD 어드민에서 광고그룹 즉시 <strong>일시중지</strong>. 광고주 고지 후 원인 파악 병행</td></tr>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">배분 설정 확인</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">광고그룹 &gt; 배분 방식 = <strong>균등 배분</strong> 권장. '빠른 배분' 설정 시 조기 소진 발생 가능</td></tr>
+                <tr><td style="padding:7px 10px;">예측치 생성 시점</td><td style="padding:7px 10px;">캠페인 시작 직후 ~24시간은 예측치 미생성 구간. 이 기간 과집계처럼 보이는 건 정상 동작</td></tr>
+              </tbody>
+            </table>
+            <div class="checklist-box" style="margin-top:12px;">
+              <p style="font-size:12px;color:var(--gray-700);"><strong>✅ PHASE 1 완료 기준:</strong> 즉시 위협 없음 or 일시중지 조치 완료 → PHASE 2로 이동</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PHASE 2 -->
+        <div class="case-box" style="border-left-color:var(--orange);margin-top:16px;">
+          <div class="case-header" style="background:var(--orange-light);">
+            <span class="case-badge" style="background:var(--orange);color:#fff;">PHASE 2</span>
+            <strong>Frequency Cap 설정 점검</strong>
+          </div>
+          <div class="case-body">
+            <table style="width:100%;border-collapse:collapse;font-size:13px;">
+              <thead><tr style="background:var(--gray-100);">
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);width:40%;">확인 항목</th>
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);">점검 방법 &amp; 기대값</th>
+              </tr></thead>
+              <tbody>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">Frequency Cap 설정 여부</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">GFD 어드민 &gt; 광고그룹 &gt; Frequency Cap 항목 설정 여부 확인. 미설정 시 동일 사용자 무제한 노출 가능</td></tr>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">Cap 값 적정성</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">일반적으로 일 3~5회, 주 10회 이하 권장. 브랜딩 목적의 경우도 일 10회 초과는 과노출 위험</td></tr>
+                <tr><td style="padding:7px 10px;">Target Frequency 혼동 주의</td><td style="padding:7px 10px);">Target Frequency(도달 목표)는 Frequency Cap(상한 제한)이 아님. 두 설정 모두 점검</td></tr>
+              </tbody>
+            </table>
+            <div class="checklist-box" style="margin-top:12px;">
+              <p style="font-size:12px;color:var(--gray-700);"><strong>✅ PHASE 2 통과 기준:</strong> Frequency Cap 설정됨 &amp; 적정 수준 → PHASE 3으로 이동<br>❌ 미설정 or 과도하게 높음 → Cap 즉시 설정/수정. 개발자 에스컬레이션 불필요.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PHASE 3 -->
+        <div class="case-box" style="border-left-color:#ffcc00;margin-top:16px;">
+          <div class="case-header" style="background:var(--yellow-light);">
+            <span class="case-badge" style="background:#ffcc00;color:#333;">PHASE 3</span>
+            <strong>리포트 이상치 점검</strong>
+          </div>
+          <div class="case-body">
+            <table style="width:100%;border-collapse:collapse;font-size:13px;">
+              <thead><tr style="background:var(--gray-100);">
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);width:40%;">확인 항목</th>
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);">점검 방법 &amp; 기대값</th>
+              </tr></thead>
+              <tbody>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">전일/전주 동시간 노출량 비교</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">GFD 리포트에서 동일 광고그룹 전일·전주 동시간대 노출 수치 추출 후 비교. 50% 이상 급증 시 이상 신호</td></tr>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">DSP 리포트 대조</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">GFD 리포트 수치와 DSP(광고주측) 리포트 수치 비교. 양측 모두 과다 → 실제 과노출. GFD만 과다 → 집계 오류 의심</td></tr>
+                <tr><td style="padding:7px 10px;">이상 발생 시간대 특정</td><td style="padding:7px 10px;">시간별 리포트로 이상 발생 시간대 특정. 특정 시간대에만 집중된다면 스케줄 설정 오류 가능성</td></tr>
+              </tbody>
+            </table>
+            <div class="checklist-box" style="margin-top:12px;">
+              <p style="font-size:12px;color:var(--gray-700);"><strong>✅ PHASE 3 통과 기준:</strong> 이상 시간대 특정 완료 or 정상 범위 확인 → PHASE 4로 이동</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PHASE 4 -->
+        <div class="case-box" style="border-left-color:var(--green);margin-top:16px;">
+          <div class="case-header" style="background:var(--green-light);">
+            <span class="case-badge" style="background:var(--green);color:#fff;">PHASE 4</span>
+            <strong>어드민 UI 중복 항목 점검 &amp; 최종 판정</strong>
+          </div>
+          <div class="case-body">
+            <table style="width:100%;border-collapse:collapse;font-size:13px;">
+              <thead><tr style="background:var(--gray-100);">
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);width:40%;">확인 항목</th>
+                <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--gray-300);">점검 방법 &amp; 기대값</th>
+              </tr></thead>
+              <tbody>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">동일 소재 중복 등록 여부</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">GFD 어드민에서 동일 광고그룹 내 중복 소재 목록 확인. 동일 소재가 여러 번 등록된 경우 노출 중복 집계 가능</td></tr>
+                <tr><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">중복 광고그룹 여부</td><td style="padding:7px 10px;border-bottom:1px solid var(--gray-200);">동일 캠페인 내 타겟·지면 설정이 완전히 동일한 복수 광고그룹 존재 시 노출 중복 발생 가능</td></tr>
+                <tr><td style="padding:7px 10px;">GFP 미디에이션 중복 요청</td><td style="padding:7px 10px;">GFP 어드민에서 동일 지면에 NAVER_DIRECT가 여러 미디에이션 레이어에 등록된 경우 중복 요청 발생 가능</td></tr>
+              </tbody>
+            </table>
+            <div style="margin-top:16px;padding:14px;background:var(--gray-100);border-radius:8px;border:1px solid var(--gray-300);">
+              <p style="font-weight:700;font-size:13px;margin-bottom:10px;">🏁 최종 판정 기준</p>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;">
+                <div style="padding:10px;background:#fff;border-radius:6px;border:1px solid var(--green-mid);">
+                  <p style="color:var(--green-dark);font-weight:700;margin-bottom:4px;">✅ 관리자 자체 해결 가능</p>
+                  <ul style="padding-left:16px;color:var(--gray-700);line-height:1.8;">
+                    <li>Frequency Cap 미설정 또는 과도한 값</li>
+                    <li>배분 방식 오설정 (빠른 배분)</li>
+                    <li>중복 소재·광고그룹 등록</li>
+                    <li>캠페인 시작 후 24시간 이내 (정상)</li>
+                  </ul>
+                </div>
+                <div style="padding:10px;background:#fff;border-radius:6px;border:1px solid #ffcc00;">
+                  <p style="color:#b8860b;font-weight:700;margin-bottom:4px;">🔺 개발자 에스컬레이션 필요</p>
+                  <ul style="padding-left:16px;color:var(--gray-700);line-height:1.8;">
+                    <li>PHASE 1~4 모두 이상 없음에도 과노출 지속</li>
+                    <li>GFD 리포트와 DSP 리포트 수치 불일치</li>
+                    <li>특정 지면·시간대에서만 재현되는 급증</li>
+                  </ul>
+                </div>
+              </div>
+              <p style="margin-top:10px;font-size:12px;color:var(--gray-700);">에스컬레이션 시 <strong>PHASE 1~4 점검 결과</strong>, <strong>이상 발생 시간대</strong>, <strong>DSP 리포트 수치</strong>를 함께 전달하면 개발자 대응 속도가 크게 향상됩니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OV TAB 3: 자동 응답 템플릿 -->
+      <div class="tab-pane" id="tab-ov-templates">
+        <h2 class="section-title orange">📝 과노출·과집계 자동 응답 템플릿 (2종)</h2>
+
+        <div class="template-card">
+          <div class="template-header orange-hdr">
+            <h3>⚡ 과노출·과송출 초기 접수 자동 응답</h3>
+            <button class="copy-btn orange-btn" data-target="ov-tpl1">복사</button>
+          </div>
+          <pre class="template-code" id="ov-tpl1">안녕하세요. GFD 광고 운영팀입니다.
+
+광고 과노출/과송출 문의를 접수하였습니다.
+신속한 파악을 위해 아래 사항을 먼저 확인해 주시기 바랍니다.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[ 1차 자가진단 ]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[ ] 1. GFD 어드민 > 광고그룹 > 노출 빈도(Frequency Cap) 설정 여부 확인
+[ ] 2. 캠페인 라이브 24시간 이전에 세팅이 완료됐는지 확인
+[ ] 3. 동일 인벤토리에 중복된 광고그룹이 없는지 확인
+[ ] 4. 현재 리포트에서 노출수 / 예산 소진 속도 캡처
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[ 필수 확인 정보 ]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+- 캠페인 ID / 광고그룹 ID
+- 목표 노출수(총량) vs 현재 소진 노출수
+- 과노출 최초 감지 일시
+- 캠페인 기간 (시작일~종료일)
+- 리포트 스크린샷
+
+⚠️ 과송출이 심각하다면 즉시 캠페인을 일시중지하고 문의해 주세요.
+
+감사합니다.
+GFD 지원팀 드림</pre>
+        </div>
+
+        <div class="template-card">
+          <div class="template-header orange-hdr">
+            <h3>📊 과집계 초기 접수 자동 응답</h3>
+            <button class="copy-btn orange-btn" data-target="ov-tpl2">복사</button>
+          </div>
+          <pre class="template-code" id="ov-tpl2">안녕하세요. GFD 광고 운영팀입니다.
+
+노출수/수익 과집계 문의를 접수하였습니다.
+확인에 필요한 정보를 아래에 기입해 주시면 빠르게 확인하겠습니다.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[ 필수 확인 정보 ]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+- 이상 발생 일시: (예: 2026-04-27 14:00 ~ 15:00 KST)
+- 해당 인벤토리 / 광고유닛 ID:
+- 정상 수치 예시: (이전 동일 시간대 또는 동일 요일)
+- 현재 과집계 수치:
+- 리포트 캡처: (첨부 필수)
+- 광고공급자(DSP) 리포트 비교값: (있는 경우)
+
+확인 후 빠르게 답변드리겠습니다.
+GFD 지원팀 드림</pre>
+        </div>
+      </div>
+
+      <!-- OV TAB 4: 아카이빙 -->
+      <div class="tab-pane" id="tab-ov-archive">
+        <h2 class="section-title orange">🗃️ 과노출·과집계 아카이빙 방법론</h2>
+
+        <div class="archive-section">
+          <h3 class="orange-border">JIRA 레이블 체계 (과노출 전용)</h3>
+          <table class="label-table orange-tbl">
+            <thead>
+              <tr>
+                <th class="orange-th">레이블</th>
+                <th class="orange-th">의미</th>
+                <th class="orange-th">유형</th>
+                <th class="orange-th">자가해결</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="label-chip orange-chip">over-delivery-P</span></td><td>캠페인 배분/예측 알고리즘 오류</td><td>P유형</td><td style="color:var(--red);font-weight:700;">개발팀 필요</td></tr>
+              <tr><td><span class="label-chip orange-chip">over-delivery-Q</span></td><td>Frequency Cap 미설정/오작동</td><td>Q유형</td><td style="color:#b38600;font-weight:700;">일부 가능</td></tr>
+              <tr><td><span class="label-chip orange-chip">over-delivery-R</span></td><td>집계/리포트 오류 (과집계)</td><td>R유형</td><td style="color:var(--red);font-weight:700;">개발팀 필요</td></tr>
+              <tr><td><span class="label-chip orange-chip">over-delivery-S</span></td><td>퍼블리셔 설정 문제</td><td>S유형</td><td style="color:var(--green);font-weight:700;">가능</td></tr>
+              <tr><td><span class="label-chip orange-chip">over-delivery-resolved</span></td><td>자가해결 완료</td><td>-</td><td>-</td></tr>
+              <tr><td><span class="label-chip orange-chip">over-delivery-escalated</span></td><td>개발팀 에스컬레이션</td><td>-</td><td>-</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="archive-section">
+          <h3 class="orange-border">분기별 리뷰 프로세스</h3>
+          <div class="timeline orange-tl">
+            <div class="timeline-item"><span class="tl-label orange-lbl">분기 1주차</span><div class="tl-desc">전분기 과노출/과집계 이슈 레이블 정리. P/Q/R/S 유형별 건수 집계 및 비용 영향도 산출.</div></div>
+            <div class="timeline-item"><span class="tl-label orange-lbl">분기 2~4주차</span><div class="tl-desc">신규 이슈 즉시 레이블 태깅. 과송출 알림 임계값 설정 및 모니터링 강화.</div></div>
+            <div class="timeline-item"><span class="tl-label orange-lbl">분기 중반 (7주차)</span><div class="tl-desc">중간 집계: 유형별 발생 비율, 예산 손실 규모, Frequency Cap 미설정 건 추이 분석.</div></div>
+            <div class="timeline-item"><span class="tl-label orange-lbl">분기 말 (12주차)</span><div class="tl-desc">최종 리뷰: 과송출 사전 예방 가이드 업데이트. 예측 알고리즘 개선 요구사항 도출.</div></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div><!-- /topic-over -->
+
+  </div><!-- /topic-content-wrapper -->
+</div><!-- /topic-wrapper -->
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div>최종 업데이트: 2026-04-27 &nbsp;|&nbsp; GFD 광고 운영팀</div>
+  <div class="footer-links">
+    <a href="https://wiki.navercorp.com/spaces/GFD/pages/5157151724/" target="_blank">GFD FAQ 위키 페이지</a>
+    <a href="https://wiki.navercorp.com/spaces/GFD/pages/3766076248/" target="_blank">미노출 케이스 상세</a>
+    <a href="https://wiki.navercorp.com/spaces/GFD/pages/3770112306/" target="_blank">JIRA 문의 템플릿</a>
+    <a href="https://jira.navercorp.com/projects/GLAD_SUPPORT_WT" target="_blank">GLAD_SUPPORT_WT</a>
+    <a href="https://jira.navercorp.com/projects/GFP_SUPPORT" target="_blank">GFP_SUPPORT</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // ===== TOPIC (outer) TAB SWITCHING =====
+  var topicBtns = document.querySelectorAll('.topic-btn');
+  var topicSections = document.querySelectorAll('.topic-section');
+
+  topicBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = btn.getAttribute('data-topic');
+      topicBtns.forEach(function (b) { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+      topicSections.forEach(function (s) { s.classList.remove('active'); });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      var sec = document.getElementById('topic-' + target);
+      if (sec) sec.classList.add('active');
+    });
+  });
+
+  // ===== INNER TAB SWITCHING =====
+  // Each topic section has its own tab-nav; scope by section
+  topicSections.forEach(function (section) {
+    var innerBtns = section.querySelectorAll('.tab-btn');
+    var innerPanes = section.querySelectorAll('.tab-pane');
+
+    innerBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var target = btn.getAttribute('data-tab');
+        innerBtns.forEach(function (b) { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+        innerPanes.forEach(function (p) { p.classList.remove('active'); });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        var pane = document.getElementById('tab-' + target);
+        if (pane) pane.classList.add('active');
+      });
+    });
+  });
+
+  // ===== COPY BUTTONS =====
+  var copyBtns = document.querySelectorAll('.copy-btn');
+  copyBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var targetId = btn.getAttribute('data-target');
+      var el = document.getElementById(targetId);
+      if (!el) return;
+      var text = el.textContent;
+      var originalText = btn.textContent;
+      var doSuccess = function () {
+        btn.textContent = '복사됨!';
+        btn.classList.add('copied');
+        setTimeout(function () { btn.textContent = originalText; btn.classList.remove('copied'); }, 1800);
+      };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(doSuccess).catch(function () { fallbackCopy(text, btn, doSuccess); });
+      } else {
+        fallbackCopy(text, btn, doSuccess);
+      }
+    });
+  });
+
+  function fallbackCopy(text, btn, onSuccess) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;opacity:0;';
+    document.body.appendChild(ta);
+    ta.select();
+    try { if (document.execCommand('copy')) onSuccess(); } catch (e) { btn.textContent = '오류'; }
+    document.body.removeChild(ta);
+  }
+})();
+</script>
+
+</body>
+</html>
